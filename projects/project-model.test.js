@@ -28,4 +28,19 @@ describe("project model", () => {
       expect(project.name).toBe("Paint house");
     });
   });
+
+  describe("remove()", () => {
+    it("should delete a project from the db", async () => {
+      const [id] = await Projects.insert({ name: "new project" });
+
+      let projects = await db("projects");
+
+      expect(projects).toHaveLength(1);
+
+      await Projects.remove(id);
+
+      projects = await db("projects");
+      expect(projects).toHaveLength(0);
+    });
+  });
 });
